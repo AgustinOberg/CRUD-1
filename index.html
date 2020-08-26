@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/bootstrap.min.css">
+    <style>
+        .tenrem {
+            width: 10rem;
+        }
+
+        .cpoint {
+            cursor: pointer;
+        }
+    </style>
+    <title>Document</title>
+</head>
+
+<body>
+    <form id="form" class="container mt-5">
+        <h3>Tarea</h3>
+
+        <input type="text" class="form-control shadow p-3 mb-4 bg-white rounded" placeholder="Titulo de mi tarea"
+            id="tituloDeTarea">
+        <div class="d-flex align-items-center justify-content-between">
+            <div>
+                <input class="mr-1" type="checkbox" id="check-important">Importante
+            </div>
+            <input name="enviar" type="submit" value="Agregar tarea" class="btn btn-primary">
+            <select class="custom-select width-10 tenrem" name="colores">
+                <option selected>Color</option>
+                <option value="empty"></option>
+                <option value="primary">Azul</option>
+                <option value="success">Verde</option>
+                <option value="danger">Rojo</option>
+                <option value="warning">Amarillo</option>
+                <option value="dark">Negro</option>
+            </select>
+        </div>
+
+        <!--Tareas-->
+
+        <div class="tareas" id="tareas">
+
+        </div>
+
+
+
+    </form>
+    <script src="https://kit.fontawesome.com/6f1c457bb9.js" crossorigin="anonymous"></script>
+    <script src="scripts/app.js"></script>
+
+</body>
+
+</html>
