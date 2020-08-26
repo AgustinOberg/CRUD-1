@@ -53,16 +53,50 @@ const agregarTarea = (nombreTarea, tipoDeColor) => {
     agregarAlocal()
 
 }
-const eliminarTarea = (miTarea) => {
-    arrayTareas.pop(miTarea)
+const eliminarTarea = (miTarea, colorDeTarea) => {
+    let indexArray
+    arrayTareas.forEach((element, index) => {
+        if (miTarea == element.titulo && colorDeTarea == "alert-" + element.color) {
+            indexArray = index
+        }
+    });
+    arrayTareas.splice(indexArray, 1)
     agregarAlocal()
     mostrarEnPantalla()
 }
 
-const modificarTarea = (tituloDeTarea) => {
-    let index = arrayTareas.findIndex((element => element.titulo == tituloDeTarea))
-    arrayTareas[index].titulo = tituloDeTarea
-    agregarAlocal()
+//Hay que modularizar mas
+const modificarTarea = (miTarea, colorDeTarea) => {
+    document.getElementById("tituloDeTarea").value = miTarea
+    arrayTareas = JSON.parse(localStorage.getItem("tarea"))
+    let modificado = false
+    for (let i = 0; i < arrayTareas.length; i++) {
+
+        if (miTarea == arrayTareas[i].titulo && !modificado) {
+            if (colorDeTarea == "alert-" + arrayTareas[i].color) {
+                formulario.colores.value = arrayTareas[i].color
+                formulario.enviar.value = "Modificar"
+                formulario.addEventListener("submit", (e) => {
+                    if (formulario.enviar.value == "Modificar") {
+                        console.log(arrayTareas);
+                        e.preventDefault()
+                        let tarea = {
+                            completado: arrayTareas[i].completado,
+                            fecha: generarFecha(),
+                            titulo: document.getElementById("tituloDeTarea").value,
+                            color: formulario.colores.value
+                        }
+                        arrayTareas[i] = tarea
+                        agregarAlocal()
+                        mostrarEnPantalla()
+                        modificado = true
+                        formulario.colores.value = arrayTareas[i].color
+                        formulario.enviar.value = "Agregar tarea"
+                    }
+                })
+            }
+        }
+    }
 }
 
 
@@ -71,13 +105,13 @@ const modificarTarea = (tituloDeTarea) => {
 // Eventos
 formulario.addEventListener('submit', (e) => {
     e.preventDefault();
-    if (document.getElementById("tituloDeTarea").value) agregarTarea(document.getElementById("tituloDeTarea").value, formulario.colores.value)
+    if (document.getElementById("tituloDeTarea").value && formulario.enviar.value == "Agregar tarea") agregarTarea(document.getElementById("tituloDeTarea").value, formulario.colores.value)
     mostrarEnPantalla();
 })
 
 window.addEventListener("click", (e) => {
-    if (e.target.attributes[0].value == "borrar") eliminarTarea(e.target.parentNode.previousElementSibling.innerText);
-    if (e.target.attributes[0].value == "modificar") modificarTarea(e.target.parentNode.previousElementSibling.innerText);
+    if (e.target.attributes[0].value == "borrar") eliminarTarea(e.target.parentNode.previousElementSibling.innerText, e.target.parentNode.parentNode.classList[1]);
+    if (e.target.attributes[0].value == "modificar") modificarTarea(e.target.parentNode.previousElementSibling.innerText, e.target.parentNode.parentNode.classList[1]);
 
 })
 window.addEventListener("load", () => {
