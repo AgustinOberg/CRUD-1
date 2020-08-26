@@ -1,10 +1,10 @@
-// Variables
+// Variables -
 const formulario = document.getElementById("form")
 const tareaHTML = document.getElementById("tareas")
 
 let arrayTareas
 
-// Funciones
+// Funciones -
 const agregarAlocal = () => {
     localStorage.setItem("tarea", JSON.stringify(arrayTareas))
 }
